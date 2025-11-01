@@ -20,7 +20,7 @@ public class ActionsTest {
         driver.get("https://www.amazon.com.br");
         Actions actions = new Actions(driver);
 
-        //Eelements
+        //Elements
         WebElement linkAccountList = driver.findElement(By.cssSelector("#nav-link-accountList a"));
         WebElement inputSearch = driver.findElement(By.id("twotabsearchtextbox"));
 
