@@ -6,11 +6,9 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-import java.util.ArrayList;
-import java.util.Collections;
+
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+
 
 public class FiltersTest {
 
@@ -27,20 +25,18 @@ public class FiltersTest {
         List<WebElement> names = driver.findElements(By.xpath("//tr/td[1]"));
 
 
-
         // generic approach
         SoftAssert softAssert = new SoftAssert();
 
-        names.forEach(name -> {
-            softAssert.assertTrue(
-                    name.getText().toUpperCase().contains(searchElement.toUpperCase()),
-                    String.format("'%s' doesn't contain text '%s' ", name.getText(), searchElement)
-            );
-        });
+        names.forEach(name ->
+                softAssert.assertTrue(
+                        name.getText().toUpperCase().contains(searchElement.toUpperCase()),
+                        String.format("'%s' doesn't contain text '%s' ", name.getText(), searchElement)
+                )
+        );
 
         System.out.println(names.size());
         softAssert.assertAll();
-
 
 
         // Approach without softAssert
@@ -49,9 +45,6 @@ public class FiltersTest {
         ).toList();
 
         Assert.assertEquals(filteredList.size(), names.size());
-
-
-
 
 
         driver.quit();
