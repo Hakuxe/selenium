@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Suite">
+    <test thread-count="5" name="Api Test">
+        <classes>
+            <class name="FakeApiTests">
+
+                <!-- Só rodar o teste de api-->
+                <methods>
+                    <include name="runApiTests" />
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Smoke Test">
+        <classes>
+            <class name="FakeSmokeTest">
+
+                <!-- não rodar o teste de table -->
+                <methods>
+                    <exclude name="runTabletTest" />
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+</suite>
