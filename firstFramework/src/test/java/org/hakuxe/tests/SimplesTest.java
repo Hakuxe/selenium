@@ -1,5 +1,8 @@
 package org.hakuxe.tests;
 
+import pages.CartPage;
+import pages.CheckoutPage;
+import pages.DashboardPage;
 import pages.LoginPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,6 +14,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
+import pages.components.HeaderComponent;
+import pages.components.ToastComponent;
 
 import java.time.Duration;
 import java.util.List;
@@ -34,59 +39,33 @@ public class SimplesTest {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-
         LoginPage loginPage = new LoginPage(driver);
+
+        HeaderComponent headerComponent = new HeaderComponent(driver);
+        ToastComponent toastComponent = new ToastComponent(driver);
 
         driver.get("https://rahulshettyacademy.com/client/#/auth/login");
 
-        loginPage.loginWithUserAndPassword(user, pass);
+        DashboardPage dashboardPage = loginPage.loginWithUserAndPassword(user, pass);
 
+        List<WebElement> products = dashboardPage.getProducts();
+        dashboardPage.addToCart(productName);
 
+        CartPage cartPage = headerComponent.goToCartPage();
 
-        By card = By.cssSelector(".card-body");
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(card));
-        List<WebElement> products = driver.findElements(card);
-
-
-        for (WebElement el : products) {
-            String text = el.findElement(By.tagName("h5")).getText();
-
-            if (text.equalsIgnoreCase(productName)) {
-                el.findElement(By.cssSelector("button>i.fa-shopping-cart")).click();
-            }
-        }
-
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".ngx-spinner-overlay")));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#toast-container")));
-        driver.findElement(By.cssSelector("[routerlink='/dashboard/cart']")).click();
-
-        Thread.sleep(5000);
-
-        List<WebElement> cartProducts = driver.findElements(By.cssSelector(".cartSection h3"));
-
-        boolean isInCart = cartProducts.stream().anyMatch(item -> item.getText().equalsIgnoreCase(productName));
+        List<WebElement> cartProducts = cartPage.getCartProducts();
+        boolean isInCart = cartPage.checkIfProductIsInCart(productName);
 
         Assert.assertTrue(isInCart);
 
 
-        driver.findElement(By.cssSelector("div.subtotal button")).click();
-        driver.findElement(By.cssSelector("div.user__name div.user__address input")).sendKeys("Brazil");
+        CheckoutPage checkoutPage = cartPage.goToCheckoutPage();
+        checkoutPage.selectCountry("Brazil");
 
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("section.ta-results button")));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a.action__submit")));
-        driver.findElement(By.cssSelector("section.ta-results button")).click();
+        checkoutPage.placeOrder();
 
-        new Actions(driver)
-                .scrollToElement(driver.findElement(By.cssSelector("a.action__submit")))
-                .perform();
-
-        driver.findElement(By.cssSelector("a.action__submit")).click();
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("toast-container")));
-        String placedOrderMessage = driver.findElement(By.id("toast-container")).getText();
+        String placedOrderMessage = toastComponent.getToastMessage();
 
         Assert.assertEquals(placedOrderMessage.trim(), "Order Placed Successfully");
 
