@@ -3,12 +3,17 @@ package base;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
+
 import org.testng.annotations.*;
 
 public class BaseTest {
@@ -44,8 +49,25 @@ public class BaseTest {
         driver.manage().window().maximize();
     }
 
+
+    public List<HashMap<String, String>> getJsonDataToMap(String filePath) throws IOException {
+        //read json to string
+        String jsonContent = FileUtils.readFileToString(new File(filePath),
+                StandardCharsets.UTF_8);
+
+        //String to HashMap- Jackson Databind
+
+        ObjectMapper mapper = new ObjectMapper();
+        List<HashMap<String, String>> data = mapper.readValue(jsonContent, new TypeReference<List<HashMap<String, String>>>() {
+        });
+        return data;
+
+        //{map, map}
+
+    }
+
     @BeforeMethod(alwaysRun = true)
-    public void launchApplication(){
+    public void launchApplication() {
         createDriver();
         driver.get("https://rahulshettyacademy.com/client/#/auth/login");
     }
