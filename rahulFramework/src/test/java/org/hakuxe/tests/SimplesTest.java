@@ -1,6 +1,9 @@
 package org.hakuxe.tests;
 
 import base.BaseTest;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.testng.annotations.DataProvider;
 import pages.CartPage;
 import pages.CheckoutPage;
@@ -13,6 +16,8 @@ import pages.components.HeaderComponent;
 import pages.components.ToastComponent;
 
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -64,15 +69,15 @@ public class SimplesTest extends BaseTest {
 
     @DataProvider
     public Object[][] getDataHashMap() {
-            HashMap<Object, Object> map = new HashMap<>();
-            map.put("user", "xapaco9852@bipochub.com");
-            map.put("pass", "Test@12345678");
-            map.put("productName", "ZARA COAT 3");
+        HashMap<Object, Object> map = new HashMap<>();
+        map.put("user", "xapaco9852@bipochub.com");
+        map.put("pass", "Test@12345678");
+        map.put("productName", "ZARA COAT 3");
 
-            HashMap<Object, Object> map1 = new HashMap<>();
-            map1.put("user", "xapaco9852@bipochub.com");
-            map1.put("pass", "Test@12345678");
-            map1.put("productName", "Iphone 13 pro");
+        HashMap<Object, Object> map1 = new HashMap<>();
+        map1.put("user", "xapaco9852@bipochub.com");
+        map1.put("pass", "Test@12345678");
+        map1.put("productName", "Iphone 13 pro");
 
 
         return new Object[][]{
@@ -80,6 +85,31 @@ public class SimplesTest extends BaseTest {
                 {map1}
 
         };
+    }
+
+    @DataProvider
+    public Object[][] getDatajson() {
+
+
+        List<HashMap<String, String>> data = null;
+        try {
+            data = getJsonDataToMap(System.getProperty("user.dir") + "//src//test/resources/testdata/data.json");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return new Object[][]{{data.get(0)}, {data.get(1)}};
+
+    }
+
+    public String getScreenshot(String testName) throws IOException {
+        TakesScreenshot ts = (TakesScreenshot) driver;
+        File src = ts.getScreenshotAs(OutputType.FILE);
+        File filePath = new File(
+                System.getProperty("user.dir") + "/src/test/resources/reports/" + testName + ".png"
+        );
+        FileUtils.copyFile(src, filePath);
+
+        return System.getProperty("user.dir") + "src/test/resources/reports/" + testName + ".png";
     }
 
 

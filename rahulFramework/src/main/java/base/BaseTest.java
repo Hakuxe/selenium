@@ -1,7 +1,9 @@
 package base;
 
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +17,8 @@ import java.util.List;
 import java.util.Properties;
 
 import org.testng.annotations.*;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.ObjectMapper;
 
 public class BaseTest {
 
