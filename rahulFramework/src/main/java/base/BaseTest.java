@@ -1,6 +1,8 @@
 package base;
 
 import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -68,6 +70,17 @@ public class BaseTest {
 
         //{map, map}
 
+    }
+
+    public String getScreenshot(String testName) throws IOException {
+        TakesScreenshot ts = (TakesScreenshot) driver;
+        File src = ts.getScreenshotAs(OutputType.FILE);
+        File filePath = new File(
+                System.getProperty("user.dir") + "/src/test/resources/reports/" + testName + ".png"
+        );
+        FileUtils.copyFile(src, filePath);
+
+        return System.getProperty("user.dir") + "src/test/resources/reports/" + testName + ".png";
     }
 
     @BeforeMethod(alwaysRun = true)

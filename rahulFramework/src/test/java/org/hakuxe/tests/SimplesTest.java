@@ -53,7 +53,7 @@ public class SimplesTest extends BaseTest {
 
         String placedOrderMessage = toastComponent.getToastMessage();
 
-        Assert.assertEquals(placedOrderMessage.trim(), "Order Placed Successfully");
+        Assert.assertEquals(placedOrderMessage.trim(), "Order Placed Successfully2");
 
 
     }
@@ -101,16 +101,7 @@ public class SimplesTest extends BaseTest {
 
     }
 
-    public String getScreenshot(String testName) throws IOException {
-        TakesScreenshot ts = (TakesScreenshot) driver;
-        File src = ts.getScreenshotAs(OutputType.FILE);
-        File filePath = new File(
-                System.getProperty("user.dir") + "/src/test/resources/reports/" + testName + ".png"
-        );
-        FileUtils.copyFile(src, filePath);
 
-        return System.getProperty("user.dir") + "src/test/resources/reports/" + testName + ".png";
-    }
 
 
 }
