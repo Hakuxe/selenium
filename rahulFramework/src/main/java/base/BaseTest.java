@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.*;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
@@ -26,7 +27,7 @@ public class BaseTest {
 
     private Properties properties;
 
-    protected WebDriver driver = null;
+    public WebDriver driver = null;
 
 
     public void createDriver() {
@@ -41,14 +42,15 @@ public class BaseTest {
             throw new RuntimeException(e);
         }
 
-        String browser = properties.getProperty("browser");
+        // se no terminal mandar outro browser
+        String browser = System.getProperty("browser") != null ? System.getProperty("browser") :properties.getProperty("browser");
         String timeout = properties.getProperty("timeout");
 
         if (browser.equalsIgnoreCase("CHROME")) {
             driver = new ChromeDriver();
 
         } else if (browser.equalsIgnoreCase("FIREFOX")) {
-            System.out.println("NO firefox");
+            driver = new FirefoxDriver();
         }
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(Integer.parseInt(timeout)));
@@ -89,7 +91,7 @@ public class BaseTest {
         driver.get("https://rahulshettyacademy.com/client/#/auth/login");
     }
 
-    @AfterTest(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void finish() {
         driver.quit();
     }

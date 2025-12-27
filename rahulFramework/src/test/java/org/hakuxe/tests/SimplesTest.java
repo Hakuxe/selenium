@@ -14,6 +14,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.components.HeaderComponent;
 import pages.components.ToastComponent;
+import utils.RetryTestNg;
 
 
 import java.io.File;
@@ -24,7 +25,7 @@ import java.util.List;
 public class SimplesTest extends BaseTest {
 
 
-    @Test(dataProvider = "getDataHashMap")
+    @Test(dataProvider = "getDataHashMap", retryAnalyzer = RetryTestNg.class)
     public void simpleTest(HashMap<String, String> data) {
 
 
@@ -53,7 +54,7 @@ public class SimplesTest extends BaseTest {
 
         String placedOrderMessage = toastComponent.getToastMessage();
 
-        Assert.assertEquals(placedOrderMessage.trim(), "Order Placed Successfully2");
+        Assert.assertEquals(placedOrderMessage.trim(), "Order Placed Successfully");
 
 
     }
