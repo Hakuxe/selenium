@@ -1,6 +1,7 @@
 package base;
 
 import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -18,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.*;
 import tools.jackson.core.type.TypeReference;
@@ -46,10 +48,18 @@ public class BaseTest {
         String browser = System.getProperty("browser") != null ? System.getProperty("browser") :properties.getProperty("browser");
         String timeout = properties.getProperty("timeout");
 
-        if (browser.equalsIgnoreCase("CHROME")) {
+        if (browser.equalsIgnoreCase("chrome")) {
             driver = new ChromeDriver();
+        } else if (browser.equalsIgnoreCase("chromeHeadless")) {
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.addArguments("--headless");
+            chromeOptions.addArguments("--start-maximized");
+            chromeOptions.addArguments("--window-size=1920,1080");
 
-        } else if (browser.equalsIgnoreCase("FIREFOX")) {
+            driver = new ChromeDriver(chromeOptions);
+            driver.manage().window().setSize(new Dimension(1920, 1080));
+
+        } else if (browser.equalsIgnoreCase("firefox")) {
             driver = new FirefoxDriver();
         }
 

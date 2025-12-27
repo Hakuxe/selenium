@@ -1,6 +1,7 @@
 package pages;
 
 import base.BasePage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -30,6 +31,9 @@ public class LoginPage extends BasePage {
 
 
     public DashboardPage loginWithUserAndPassword(String userName, String password) {
+        waitForElementToAppear(By.id("userEmail"));
+        waitForElementToAppear(By.id("userPassword"));
+        waitForElementToAppear(By.id("login"));
         inputEmail.sendKeys(userName);
         inputPassword.sendKeys(password);
         btnLogin.click();
