@@ -83,7 +83,7 @@ public class MockNetworkRequestTest {
         devTools.addListener(Fetch.requestPaused(), request -> {
             String url = request.getRequest().getUrl();
             RequestId requestId = request.getRequestId();
-            Request req = request.getRequest();
+
 
             String body = """
                 {
