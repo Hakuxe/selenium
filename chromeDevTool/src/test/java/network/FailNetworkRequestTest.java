@@ -1,20 +1,13 @@
+package network;
+
 import org.openqa.selenium.By;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.devtools.DevTools;
 import org.openqa.selenium.devtools.v142.fetch.Fetch;
-import org.openqa.selenium.devtools.v142.fetch.model.RequestId;
 import org.openqa.selenium.devtools.v142.fetch.model.RequestPattern;
-import org.openqa.selenium.devtools.v142.network.Network;
 import org.openqa.selenium.devtools.v142.network.model.ErrorReason;
-import org.openqa.selenium.devtools.v142.network.model.Request;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
